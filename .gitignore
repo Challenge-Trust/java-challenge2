@@ -1,0 +1,23 @@
+# Build
+target/
+out/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Ambiente
+.env
+*.env
+
+# Banco local (H2 legado)
+*.db
+
+# SO
+.DS_Store
+Thumbs.db
