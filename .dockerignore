@@ -1,0 +1,6 @@
+target/
+.git/
+.idea/
+*.iml
+.env
+Challenge-Java-2-main/
