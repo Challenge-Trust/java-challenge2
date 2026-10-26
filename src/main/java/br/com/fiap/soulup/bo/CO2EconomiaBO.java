@@ -2,6 +2,7 @@ package br.com.fiap.soulup.bo;
 
 import br.com.fiap.soulup.dao.CO2EconomiaDAO;
 import br.com.fiap.soulup.dto.CO2EconomiaRequest;
+import br.com.fiap.soulup.dto.SeloResponse;
 import br.com.fiap.soulup.exception.RecursoNaoEncontradoException;
 import br.com.fiap.soulup.exception.RegraNegocioException;
 import br.com.fiap.soulup.model.CO2Economia;
@@ -45,6 +46,13 @@ public class CO2EconomiaBO {
             return "Prata";
         }
         return "Bronze";
+    }
+
+    public SeloResponse seloDoUsuario(Long usuarioId) {
+        double total = listarPorUsuario(usuarioId).stream()
+                .mapToDouble(CO2Economia::getCo2Economizado)
+                .sum();
+        return new SeloResponse(usuarioId, total, calcularSelo(total));
     }
 
     public List<CO2Economia> listar() {
