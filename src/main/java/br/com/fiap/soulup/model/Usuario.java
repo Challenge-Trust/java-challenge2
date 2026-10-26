@@ -1,21 +1,27 @@
-package model;
+package br.com.fiap.soulup.model;
 
+/**
+ * Usuário da plataforma SoulUp - tabela T_SU_USUARIO.
+ * O campo password guarda o hash BCrypt da senha (coluna senha).
+ */
 public class Usuario {
 
     private Long id;
-    private String name, userName, password, cpf;
+    private String name;
+    private String userName;
+    private String password;
+    private String cpf;
     private int viewMinutes;
 
-    public Usuario(String name, String userName, String password,
-                   String cpf, int viewMinutes) {
+    public Usuario() {
+    }
+
+    public Usuario(String name, String userName, String password, String cpf, int viewMinutes) {
         this.name = name;
         this.userName = userName;
         this.password = password;
         this.cpf = cpf;
         this.viewMinutes = viewMinutes;
-    }
-
-    public Usuario() {
     }
 
     public Long getId() {
@@ -24,14 +30,6 @@ public class Usuario {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getViewMinutes() {
-        return viewMinutes;
-    }
-
-    public void setViewMinutes(int viewMinutes) {
-        this.viewMinutes = viewMinutes;
     }
 
     public String getName() {
@@ -63,11 +61,14 @@ public class Usuario {
     }
 
     public void setCpf(String cpf) {
-        if (cpf.length() == 11) {
-            this.cpf = cpf;
-        } else {
-            System.out.println("CPF inválido! Digite exatamente 11 dígitos.");
-        }
+        this.cpf = cpf;
     }
 
+    public int getViewMinutes() {
+        return viewMinutes;
+    }
+
+    public void setViewMinutes(int viewMinutes) {
+        this.viewMinutes = viewMinutes;
+    }
 }

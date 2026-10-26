@@ -1,28 +1,24 @@
-package model;
+package br.com.fiap.soulup.model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Passagens de transporte emitidas para o usuário - tabela T_SU_PASSAGEM.
+ */
 public class Ticket {
-    private Long id;
-    private int tickets;
-    private Long usuarioId;
-    private LocalDateTime dataEmissao;
 
-    public Ticket(int tickets, Long usuarioId) {
-        this.usuarioId = usuarioId;
-        this.tickets = tickets;
-        this.dataEmissao = LocalDateTime.now();
-    }
+    private Long id;
+    private Long usuarioId;
+    private int tickets;
+    private LocalDateTime dataEmissao;
 
     public Ticket() {
     }
 
-    public int getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(int tickets) {
+    public Ticket(Long usuarioId, int tickets) {
+        this.usuarioId = usuarioId;
         this.tickets = tickets;
+        this.dataEmissao = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -41,6 +37,14 @@ public class Ticket {
         this.usuarioId = usuarioId;
     }
 
+    public int getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(int tickets) {
+        this.tickets = tickets;
+    }
+
     public LocalDateTime getDataEmissao() {
         return dataEmissao;
     }
@@ -49,4 +53,3 @@ public class Ticket {
         this.dataEmissao = dataEmissao;
     }
 }
-

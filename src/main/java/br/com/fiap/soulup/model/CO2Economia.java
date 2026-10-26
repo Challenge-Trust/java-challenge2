@@ -1,25 +1,28 @@
-package model;
+package br.com.fiap.soulup.model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Cálculo de CO2 economizado (em gramas) por trocar o carro pelo ônibus - tabela T_SU_CO2.
+ */
 public class CO2Economia {
+
     private Long id;
     private Long usuarioId;
-    private double distanciaKm, co2Economizado;
+    private double distanciaKm;
+    private double co2Economizado;
     private int passageiroOnibus;
     private LocalDateTime dataCalculo;
 
-    public CO2Economia(Long usuarioId, double distanciaKm,
-                       double co2Economizado, int passageiroOnibus) {
+    public CO2Economia() {
+    }
+
+    public CO2Economia(Long usuarioId, double distanciaKm, double co2Economizado, int passageiroOnibus) {
         this.usuarioId = usuarioId;
         this.distanciaKm = distanciaKm;
         this.co2Economizado = co2Economizado;
         this.passageiroOnibus = passageiroOnibus;
         this.dataCalculo = LocalDateTime.now();
-    }
-
-    public CO2Economia(){
-
     }
 
     public Long getId() {
