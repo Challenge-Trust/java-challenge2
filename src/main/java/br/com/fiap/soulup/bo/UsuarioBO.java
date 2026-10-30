@@ -73,16 +73,19 @@ public class UsuarioBO {
     public UsuarioResponse atualizar(Long id, UsuarioRequest dados) {
         Usuario usuario = buscarEntidade(id);
         validar(dados, false);
-        String cpf = somenteDigitos(dados.cpf());
-        usuarioDAO.findByCpf(cpf)
-                .filter(outro -> !outro.getId().equals(id))
-                .ifPresent(outro -> {
-                    throw new ConflitoException("Já existe outro usuário cadastrado com esse CPF.");
-                });
+        // CPF em branco mantém o atual: a API nunca devolve o CPF completo para preencher o formulário
+        if (!vazio(dados.cpf())) {
+            String cpf = somenteDigitos(dados.cpf());
+            usuarioDAO.findByCpf(cpf)
+                    .filter(outro -> !outro.getId().equals(id))
+                    .ifPresent(outro -> {
+                        throw new ConflitoException("Já existe outro usuário cadastrado com esse CPF.");
+                    });
+            usuario.setCpf(cpf);
+        }
 
         usuario.setName(dados.name().trim());
         usuario.setUserName(textoOuNulo(dados.userName()));
-        usuario.setCpf(cpf);
         usuario.setViewMinutes(minutos(dados));
         if (!vazio(dados.password())) {
             usuario.setPassword(passwordEncoder.encode(dados.password()));
@@ -137,7 +140,8 @@ public class UsuarioBO {
         usuarioDAO.update(usuario);
     }
 
-    private void validar(UsuarioRequest dados, boolean senhaObrigatoria) {
+    /** No cadastro CPF e senha são obrigatórios; na edição só são validados se vierem preenchidos. */
+    private void validar(UsuarioRequest dados, boolean cadastro) {
         if (dados == null) {
             throw new RegraNegocioException("Corpo da requisição vazio.");
         }
@@ -150,10 +154,10 @@ public class UsuarioBO {
         if (dados.userName() != null && dados.userName().trim().length() > USERNAME_MAX) {
             throw new RegraNegocioException("O nome de usuário deve ter no máximo " + USERNAME_MAX + " caracteres.");
         }
-        if (!cpfValido(dados.cpf())) {
+        if ((cadastro || !vazio(dados.cpf())) && !cpfValido(dados.cpf())) {
             throw new RegraNegocioException("CPF inválido.");
         }
-        if (senhaObrigatoria || !vazio(dados.password())) {
+        if (cadastro || !vazio(dados.password())) {
             validarSenha(dados.password());
         }
         if (dados.viewMinutes() != null && dados.viewMinutes() < 0) {
