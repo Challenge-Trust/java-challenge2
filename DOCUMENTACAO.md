@@ -40,6 +40,8 @@ transporte (os tickets são registrados no sistema).
 
 1. **Cadastro e autenticação de usuários** — CPF validado (dígitos verificadores) e único, senha
    armazenada com hash **BCrypt**, login por CPF + senha e redefinição de senha por CPF + nome.
+   O CPF nunca é devolvido completo pela API: as respostas trazem só o formato mascarado
+   `***.982.247-**` (proteção de dado pessoal, LGPD).
 2. **Conversão de minutos em pontos e tickets** — a cada **180 minutos** assistidos o usuário
    ganha **1 ponto**; a cada **10 pontos** recebe **1 ticket**. Os minutos e pontos que sobram ficam
    guardados para a próxima conversão.
@@ -68,7 +70,7 @@ Resource (REST)  →  BO (regras/validações)  →  DAO (SQL)  →  ConnectionF
 | `dao`       | Um DAO por entidade com `insert`, `findAll`, `findById`, `update`, `delete`       |
 | `bo`        | Regras de negócio e validações; único ponto que decide status 400/404/409         |
 | `resource`  | Controllers REST (sem regra de negócio e sem SQL)                                 |
-| `dto`       | Records de entrada (`*Request`) e saída (`*Response`); a senha nunca é exposta    |
+| `dto`       | Records de entrada (`*Request`) e saída (`*Response`); a senha nunca é exposta e o CPF sai mascarado (`***.982.247-**`) |
 | `exception` | Exceções customizadas + `GlobalExceptionHandler` (`@RestControllerAdvice`)        |
 | `config`    | `CorsFilter`                                                                      |
 
@@ -86,7 +88,7 @@ Todas as respostas são JSON (camelCase). Datas no formato ISO-8601 (`2026-10-29
 | `/api/usuarios`                | GET    | Lista os usuários                               | —                                                            | 200, 500                |
 | `/api/usuarios/{id}`           | GET    | Busca um usuário                                | —                                                            | 200, 400, 404, 500      |
 | `/api/usuarios`                | POST   | Cadastra e já converte os minutos informados    | `{ "name", "userName"?, "cpf", "password", "viewMinutes" }`  | 201 + `Location`, 400, 409, 500 |
-| `/api/usuarios/{id}`           | PUT    | Atualiza (senha opcional)                       | `{ "name", "userName"?, "cpf", "password"?, "viewMinutes" }` | 200, 400, 404, 409, 500 |
+| `/api/usuarios/{id}`           | PUT    | Atualiza (CPF e senha opcionais)                | `{ "name", "userName"?, "cpf"?, "password"?, "viewMinutes" }` | 200, 400, 404, 409, 500 |
 | `/api/usuarios/{id}`           | DELETE | Exclui o usuário (e, em cascata, seus registros) | —                                                           | 204, 404, 500           |
 | `/api/usuarios/{id}/minutos`   | POST   | Credita minutos assistidos e converte           | `{ "minutos": 360 }` (1 a 1440)                              | 200, 400, 404, 500      |
 | `/api/usuarios/{id}/pontos`    | GET    | Saldo de pontos do usuário                      | —                                                            | 200, 404, 500           |
@@ -134,7 +136,7 @@ Resposta `201 Created` (`Location: /api/usuarios/3`) — 2000 min viraram 11 pon
 sobraram 1 ponto e 20 minutos:
 
 ```json
-{ "id": 3, "name": "Carla Dias", "userName": null, "cpf": "39053344705", "viewMinutes": 20 }
+{ "id": 3, "name": "Carla Dias", "userName": null, "cpf": "***.053.344-**", "viewMinutes": 20 }
 ```
 
 Erro padronizado (ex.: CPF repetido):
