@@ -14,8 +14,8 @@
 
 - Repositório da API: <https://github.com/Challenge-Trust/java-challenge2>
 - Repositório do front-end: <https://github.com/Challenge-Trust/Challenge-FrontEnd>
-- API publicada: **[PREENCHER APÓS O DEPLOY NO RENDER]**
-- Front-end publicado: **[PREENCHER APÓS O DEPLOY NA VERCEL]**
+- API publicada: <https://soulup-api-6rv6.onrender.com>
+- Front-end publicado: <https://soulup-trustcorp.vercel.app>
 
 <div style="page-break-after: always;"></div>
 
@@ -76,7 +76,7 @@ Resource (REST)  →  BO (regras/validações)  →  DAO (SQL)  →  ConnectionF
 
 ## 4. Endpoints
 
-Base local: `http://localhost:8080` · Base em produção: **[URL DO RENDER]**
+Base local: `http://localhost:8080` · Base em produção: `https://soulup-api-6rv6.onrender.com`
 Todas as respostas são JSON (camelCase). Datas no formato ISO-8601 (`2026-10-29T21:53:25`).
 
 ### 4.1 Usuários

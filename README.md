@@ -104,8 +104,8 @@ Ou compacte manualmente `src/`, `pom.xml`, `mvnw`, `mvnw.cmd`, `.mvn/`, `Dockerf
 
 - Repositório da API: <https://github.com/Challenge-Trust/java-challenge2>
 - Repositório do front-end: <https://github.com/Challenge-Trust/Challenge-FrontEnd>
-- API publicada: **[PREENCHER APÓS O DEPLOY NO RENDER]**
-- Front publicado: **[PREENCHER APÓS O DEPLOY NA VERCEL]**
+- API publicada: <https://soulup-api-6rv6.onrender.com>
+- Front publicado: <https://soulup-trustcorp.vercel.app>
 
 ## Integrantes · Turma 1TDSPI · FIAP 2026
 
