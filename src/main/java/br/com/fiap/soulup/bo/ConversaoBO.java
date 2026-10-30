@@ -3,6 +3,7 @@ package br.com.fiap.soulup.bo;
 import br.com.fiap.soulup.dao.PointsDAO;
 import br.com.fiap.soulup.dao.TicketDAO;
 import br.com.fiap.soulup.dao.UsuarioDAO;
+import br.com.fiap.soulup.dto.ConversaoResponse;
 import br.com.fiap.soulup.model.Points;
 import br.com.fiap.soulup.model.Ticket;
 import br.com.fiap.soulup.model.Usuario;
@@ -35,7 +36,7 @@ public class ConversaoBO {
      * Converte os minutos do usuário em pontos e os pontos em passagens, gravando o resultado.
      * Os minutos e pontos que sobram ficam guardados para a próxima conversão.
      */
-    public void converter(Usuario usuario) {
+    public ConversaoResponse converter(Usuario usuario) {
         Points saldo = pointsDAO.findByUsuarioId(usuario.getId())
                 .orElseGet(() -> pointsDAO.insert(new Points(usuario.getId(), 0)));
 
@@ -57,5 +58,7 @@ public class ConversaoBO {
             saldo.setDataAtualizacao(LocalDateTime.now());
             pointsDAO.update(saldo);
         }
+        return new ConversaoResponse(usuario.getId(), pontosGanhos, passagens,
+                usuario.getViewMinutes(), saldo.getEarnedPoints());
     }
 }

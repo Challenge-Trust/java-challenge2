@@ -4,6 +4,8 @@ import br.com.fiap.soulup.bo.CO2EconomiaBO;
 import br.com.fiap.soulup.bo.PointsBO;
 import br.com.fiap.soulup.bo.TicketBO;
 import br.com.fiap.soulup.bo.UsuarioBO;
+import br.com.fiap.soulup.dto.ConversaoResponse;
+import br.com.fiap.soulup.dto.MinutosRequest;
 import br.com.fiap.soulup.dto.SeloResponse;
 import br.com.fiap.soulup.dto.UsuarioRequest;
 import br.com.fiap.soulup.dto.UsuarioResponse;
@@ -67,6 +69,11 @@ public class UsuarioResource {
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
         usuarioBO.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/minutos")
+    public ConversaoResponse registrarMinutos(@PathVariable Long id, @RequestBody MinutosRequest dados) {
+        return usuarioBO.registrarMinutos(id, dados);
     }
 
     @GetMapping("/{id}/pontos")

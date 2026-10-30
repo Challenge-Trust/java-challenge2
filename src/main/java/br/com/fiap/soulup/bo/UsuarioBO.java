@@ -1,7 +1,9 @@
 package br.com.fiap.soulup.bo;
 
 import br.com.fiap.soulup.dao.UsuarioDAO;
+import br.com.fiap.soulup.dto.ConversaoResponse;
 import br.com.fiap.soulup.dto.LoginRequest;
+import br.com.fiap.soulup.dto.MinutosRequest;
 import br.com.fiap.soulup.dto.RecuperarSenhaRequest;
 import br.com.fiap.soulup.dto.UsuarioRequest;
 import br.com.fiap.soulup.dto.UsuarioResponse;
@@ -25,6 +27,8 @@ public class UsuarioBO {
     private static final int USERNAME_MAX = 30;
     private static final int SENHA_MIN = 6;
     private static final int SENHA_MAX = 30;
+    /** Um dia inteiro assistindo: limite para evitar valores absurdos num único registro. */
+    private static final int MINUTOS_MAX_POR_REGISTRO = 1440;
 
     private final UsuarioDAO usuarioDAO;
     private final ConversaoBO conversaoBO;
@@ -86,6 +90,21 @@ public class UsuarioBO {
         usuarioDAO.update(usuario);
         conversaoBO.converter(usuario);
         return UsuarioResponse.from(usuario);
+    }
+
+    /** Credita minutos assistidos e já converte em pontos e passagens. */
+    public ConversaoResponse registrarMinutos(Long id, MinutosRequest dados) {
+        Usuario usuario = buscarEntidade(id);
+        if (dados == null || dados.minutos() == null || dados.minutos() <= 0) {
+            throw new RegraNegocioException("Informe os minutos assistidos (maior que 0).");
+        }
+        if (dados.minutos() > MINUTOS_MAX_POR_REGISTRO) {
+            throw new RegraNegocioException(
+                    "Registre no máximo " + MINUTOS_MAX_POR_REGISTRO + " minutos por vez.");
+        }
+        usuario.setViewMinutes(usuario.getViewMinutes() + dados.minutos());
+        usuarioDAO.update(usuario);
+        return conversaoBO.converter(usuario);
     }
 
     public void excluir(Long id) {
