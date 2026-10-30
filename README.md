@@ -111,7 +111,6 @@ Ou compacte manualmente `src/`, `pom.xml`, `mvnw`, `mvnw.cmd`, `.mvn/`, `Dockerf
 
 | Nome            | RM     | GitHub                                                            |
 | --------------- | ------ | ----------------------------------------------------------------- |
-| Nicolas Martins | 573178 | [NickRM22](https://github.com/NickRM22)                           |
 | Henrique Soares | 573618 | [henriquesoaresserra-h](https://github.com/henriquesoaresserra-h) |
 | Vinicius Soares | 573351 | [vinisl2510-sudo](https://github.com/vinisl2510-sudo)             |
 | Nicolas Frazão  | 568780 | [Frazaomol](https://github.com/Frazaomol)                         |
